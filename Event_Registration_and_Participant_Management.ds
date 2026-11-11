@@ -1,0 +1,675 @@
+application "Event Registration & Participant Management"
+{
+	date format = "dd-MMM-yyyy"
+	time zone = "Asia/Kolkata"
+	time format = "24-hr"
+
+	forms
+	{
+		// ------------------------------------------------------------
+		// MASTER FORM for the Lookup field (College_Name_Lookup)
+		// ------------------------------------------------------------
+		form Colleges
+		{
+			displayname = "Colleges"
+			success message = "College added successfully!"
+
+			College_Name
+			(
+				type = text
+				displayname = "College Name"
+				required = true
+				unique = true
+				width = 200
+			)
+			College_Code
+			(
+				type = text
+				displayname = "College Code"
+				required = true
+				unique = true
+				width = 100
+			)
+			submit
+			(
+				type = submit
+				displayname = "Submit"
+			)
+			reset
+			(
+				type = reset
+				displayname = "Reset"
+			)
+		}
+
+		// ------------------------------------------------------------
+		// MAIN FORM - Basic + Advanced fields
+		// ------------------------------------------------------------
+		form Event_Registration_Form
+		{
+			displayname = "Event Registration Form"
+			success message = "Registration submitted successfully!"
+
+			// ===== Section A : Participant Details =====
+			Section_A
+			(
+				type = section
+				displayname = "Section A - Participant Details"
+			)
+			Participant_Name
+			(
+				type = text
+				displayname = "Participant Name"
+				personal data = false
+				required = true
+				// Zoho renders this as a Name field (First / Last)
+				field type = name
+			)
+			Participant_Type
+			(
+				type = radiobuttons
+				displayname = "Participant Type"
+				required = true
+				values = {"Student", "Faculty", "Professional", "VIP/Sponsor"}
+			)
+			Team_Size
+			(
+				type = number
+				displayname = "Team Size"
+				minimum value = 1
+				maximum value = 6
+			)
+
+			// ===== Section B : Contact & Institution =====
+			Section_B
+			(
+				type = section
+				displayname = "Section B - Contact & Institution Details"
+			)
+			Email_Address
+			(
+				type = email
+				displayname = "Email Address"
+				required = true
+			)
+			Contact_Number
+			(
+				type = phone
+				displayname = "Contact Number"
+				required = true
+				country code = "IN"
+			)
+			College_Organization_Name
+			(
+				type = text
+				displayname = "College/Organization Name"
+				width = 200
+			)
+			Institution_Address
+			(
+				type = address
+				displayname = "Institution Address"
+				geocode = true
+			)
+
+			// ===== Section C : Event Preferences =====
+			Section_C
+			(
+				type = section
+				displayname = "Section C - Event Preferences"
+			)
+			Event_Track
+			(
+				type = picklist
+				displayname = "Event Track"
+				required = true
+				values = {"AI & Data Science Track", "Cloud & DevOps Track", "Cyber Security Track", "IoT & Embedded Track", "Web & App Development Track"}
+			)
+			Areas_Of_Interest
+			(
+				type = multiselect
+				displayname = "Areas Of Interest"
+				values = {"Agentic Automation", "Generative AI", "Cloud Computing", "Cyber Security", "IoT", "Blockchain", "Low-Code / No-Code"}
+			)
+			Expectations_From_Event
+			(
+				type = textarea
+				displayname = "Expectations From Event"
+				height = 5
+			)
+
+			// ===== Section D : Scheduling & Acknowledgement =====
+			Section_D
+			(
+				type = section
+				displayname = "Section D - Scheduling & Acknowledgement"
+			)
+			Preferred_Session_Date
+			(
+				type = date
+				displayname = "Preferred Session Date"
+				// Adjust to the official event dates
+				minimum date = '12-Sep-2026'
+				maximum date = '14-Sep-2026'
+			)
+			Preferred_Session_Slot
+			(
+				type = time
+				displayname = "Preferred Session Slot"
+			)
+			Agree_To_Code_Of_Conduct
+			(
+				type = checkbox
+				displayname = "I agree to the event code of conduct"
+				required = true
+				initial value = false
+			)
+
+			// ===== Section E : Identity & Verification =====
+			Section_E
+			(
+				type = section
+				displayname = "Section E - Identity & Verification"
+			)
+			College_Name_Lookup
+			(
+				type = list
+				displayname = "College Name"
+				values = Colleges.ID
+				displayfield = College_Name
+				searchable = true
+			)
+			Profile_Photo
+			(
+				type = image
+				displayname = "Profile Photo"
+				allowed formats = {"jpg", "jpeg", "png"}
+				maximum size = "2 MB"
+			)
+			ID_Proof_Upload
+			(
+				type = file upload
+				displayname = "ID Proof Upload"
+				allowed formats = {"pdf", "jpg", "jpeg", "png"}
+				maximum size = "5 MB"
+			)
+			Academic_CGPA
+			(
+				type = decimal
+				displayname = "Academic CGPA"
+				decimal places = 2
+				minimum value = 0
+				maximum value = 10
+			)
+
+			// ===== Section F : Team & Media =====
+			Section_F
+			(
+				type = section
+				displayname = "Section F - Team & Media Details"
+			)
+			Team_Members_Details
+			(
+				type = subform
+				displayname = "Team Members Details"
+				form = Team_Member
+				minimum rows = 1
+				maximum rows = 6
+			)
+			Portfolio_LinkedIn_URL
+			(
+				type = url
+				displayname = "Portfolio / LinkedIn URL"
+			)
+			Team_Intro_Video
+			(
+				type = video
+				displayname = "Team Intro Video"
+				maximum duration = 60
+				maximum size = "50 MB"
+			)
+			Special_Requirement_Voice_Note
+			(
+				type = audio
+				displayname = "Special Requirement Voice Note"
+			)
+
+			// ===== Section G : Fee & Accommodation =====
+			Section_G
+			(
+				type = section
+				displayname = "Section G - Fee & Accommodation"
+			)
+			Requires_Accommodation
+			(
+				type = decisionbox
+				displayname = "Requires Accommodation"
+				required = true
+			)
+			Registration_Fee_Paid
+			(
+				type = currency
+				displayname = "Registration Fee Paid"
+				currency = "INR"
+				minimum value = 0
+			)
+			Early_Bird_Discount_Percent
+			(
+				type = percent
+				displayname = "Early Bird Discount Percent"
+				minimum value = 0
+				maximum value = 25
+			)
+			Total_Amount_Payable
+			(
+				type = formula
+				displayname = "Total Amount Payable"
+				formula = Registration_Fee_Paid - (Registration_Fee_Paid * Early_Bird_Discount_Percent / 100)
+				read only = true
+			)
+
+			// ===== Section H : Declaration & System Generated =====
+			Section_H
+			(
+				type = section
+				displayname = "Section H - Declaration & System-Generated Values"
+			)
+			Event_Guidelines_Display
+			(
+				type = richtext
+				displayname = "Event Guidelines"
+				initial value = "<h3>Event Guidelines</h3><ul><li>Please arrive 30 minutes early.</li><li>Carry a valid ID.</li><li>No outside food is allowed in the venue.</li></ul>"
+				read only = true
+			)
+			Participant_Digital_Signature
+			(
+				type = signature
+				displayname = "Participant Digital Signature"
+				required = true
+			)
+			Registration_Submitted_On
+			(
+				type = datetime
+				displayname = "Registration Submitted On"
+				initial value = zoho.currenttime
+				read only = true
+			)
+			Registration_ID
+			(
+				type = autonumber
+				displayname = "Registration ID"
+				prefix = "REC-EVT-"
+				include year = true
+				start number = 000001
+				digits = 6
+			)
+			Event_Entry_QR_Code
+			(
+				type = qrcode
+				displayname = "Event Entry QR Code"
+				source field = Registration_ID
+			)
+
+			// ===== Operational / status fields (used by reports, board, blueprint) =====
+			Status
+			(
+				type = picklist
+				displayname = "Status"
+				values = {"Pending Payment", "Confirmed", "Checked-In", "No Show", "Pending Approval"}
+				initial value = "Pending Payment"
+			)
+			Payment_Status
+			(
+				type = picklist
+				displayname = "Payment Status"
+				values = {"Pending", "Paid", "Failed"}
+				initial value = "Pending"
+			)
+			Attendance_Status
+			(
+				type = picklist
+				displayname = "Attendance Status"
+				values = {"Not Arrived", "Present", "Absent"}
+				initial value = "Not Arrived"
+			)
+			Kit_Collected
+			(
+				type = checkbox
+				displayname = "Kit Collected"
+				initial value = false
+			)
+			Reminder_Count
+			(
+				type = number
+				displayname = "Reminder Count"
+				initial value = 0
+			)
+			Transaction_Reference
+			(
+				type = text
+				displayname = "Transaction Reference"
+			)
+
+			submit
+			(
+				type = submit
+				displayname = "Submit"
+			)
+			reset
+			(
+				type = reset
+				displayname = "Reset"
+			)
+
+			actions
+			{
+				on add
+				{
+					// Form Workflow: On_Registration_Submit_Workflow
+					on success
+					{
+						// Confirmation email
+						try
+						{
+							sendmail
+							[
+								from :zoho.adminuserid
+								to :input.Email_Address
+								subject :"Registration Confirmed - " + input.Registration_ID
+								message :"Dear " + input.Participant_Name.first_name + ",<br><br>Your registration for the event is received.<br>Registration ID: <b>" + input.Registration_ID + "</b><br>Track: " + input.Event_Track + "<br>Amount Payable: " + input.Total_Amount_Payable + "<br><br>Please show your QR code at the venue.<br><br>Regards,<br>Organizing Committee"
+							]
+						}
+						catch (e)
+						{
+							info "Confirmation email failed for ID " + input.ID + " : " + e;
+						}
+						// Committee notification
+						sendmail
+						[
+							from :zoho.adminuserid
+							to :"committee@example.com"
+							subject :"New registration: " + input.Participant_Name
+							message :"New registration from " + input.Participant_Name + " (" + input.Participant_Type + ") for " + input.Event_Track
+						]
+					}
+				}
+
+				on edit
+				{
+					on success
+					{
+						// Approval trigger (VIP / Sponsor) - complete via Workflow > Approvals in the UI
+						if(input.Participant_Type == "VIP/Sponsor" && input.Status != "Confirmed")
+						{
+							input.Status = "Pending Approval";
+						}
+					}
+				}
+			}
+		}
+
+		// ------------------------------------------------------------
+		// SUBFORM backing form for Team_Members_Details
+		// ------------------------------------------------------------
+		form Team_Member
+		{
+			displayname = "Team Member"
+
+			Member_Name
+			(
+				type = text
+				displayname = "Teammate Name"
+				required = true
+			)
+			Member_Email
+			(
+				type = email
+				displayname = "Teammate Email"
+				required = true
+			)
+			Member_Role
+			(
+				type = picklist
+				displayname = "Role"
+				values = {"Team Lead", "Developer", "Designer", "Presenter", "Other"}
+			)
+		}
+	}
+
+	reports
+	{
+		// 1. LIST VIEW
+		list All_Registrations_List
+		{
+			displayname = "All Registrations List"
+			show all rows from Event_Registration_Form [ID != null]
+			(
+				Participant_Name
+				Email_Address
+				Event_Track
+				Participant_Type
+				Payment_Status
+				Registration_Submitted_On
+			)
+			sort by Registration_Submitted_On desc
+			filters = ("Event_Track", "Participant_Type", "Payment_Status")
+		}
+
+		// Default committee report named in the basic assignment
+		list Event_Registration_Report
+		{
+			displayname = "Event Registration Report"
+			show all rows from Event_Registration_Form [ID != null]
+			(
+				Registration_ID
+				Participant_Name
+				Email_Address
+				Contact_Number
+				College_Organization_Name
+				Event_Track
+				Preferred_Session_Date
+				Preferred_Session_Slot
+				Total_Amount_Payable
+				Event_Entry_QR_Code
+				Status
+			)
+			filters = ("Event_Track", "College_Organization_Name", "Preferred_Session_Slot")
+		}
+
+		// 2. SPREADSHEET VIEW
+		spreadsheet Registrations_Spreadsheet
+		{
+			displayname = "Registrations Spreadsheet"
+			show all rows from Event_Registration_Form [ID != null]
+			(
+				Participant_Name
+				Event_Track
+				Attendance_Status
+				Payment_Status
+				Kit_Collected
+			)
+			group by Event_Track
+			editable columns = (Attendance_Status, Payment_Status, Kit_Collected)
+			edit access = {"Front_Desk"}
+		}
+
+		// 3. KANBAN VIEW
+		kanban Registration_Status_Kanban
+		{
+			displayname = "Registration Status Kanban"
+			show all rows from Event_Registration_Form [ID != null]
+			group by Status
+			columns = {"Pending Payment", "Confirmed", "Checked-In", "No Show"}
+			card fields = (Participant_Name, Event_Track)
+		}
+
+		// 4. CALENDAR VIEW
+		calendar Session_Schedule_Calendar
+		{
+			displayname = "Session Schedule Calendar"
+			show all rows from Event_Registration_Form [ID != null]
+			date field = Preferred_Session_Date
+			title = Participant_Name
+			group by Event_Track
+		}
+
+		// 5. MAP VIEW
+		map Participant_Institution_Map
+		{
+			displayname = "Participant Institution Map"
+			show all rows from Event_Registration_Form [ID != null]
+			location field = Institution_Address
+			pin color by Event_Track
+		}
+
+		// 6. TIMELINE VIEW
+		timeline Registration_Activity_Timeline
+		{
+			displayname = "Registration Activity Timeline"
+			show all rows from Event_Registration_Form [ID != null]
+			date field = Registration_Submitted_On
+			group by day
+			title = Participant_Name
+		}
+
+		// 7. PIVOT TABLE
+		pivot Track_By_ParticipantType_Pivot
+		{
+			displayname = "Track By Participant Type Pivot"
+			show all rows from Event_Registration_Form [ID != null]
+			rows = Event_Track
+			columns = Participant_Type
+			values = count(ID)
+			show blank as zero = true
+		}
+
+		// 8. CHART VIEW
+		chart Track_Popularity_Chart
+		{
+			displayname = "Track Popularity Chart"
+			show all rows from Event_Registration_Form [ID != null]
+			type = bar
+			x axis = Event_Track
+			y axis = count(ID)
+			auto refresh = true
+		}
+
+		// 9. SUMMARY VIEW
+		summary Institution_Wise_Summary
+		{
+			displayname = "Institution Wise Summary"
+			show all rows from Event_Registration_Form [ID != null]
+			group by College_Organization_Name
+			case sensitive = false
+			summary columns = (count(ID) as "Count of Participants", sum(Team_Size) as "Total Team Size")
+		}
+
+		list Colleges_Report
+		{
+			displayname = "Colleges Report"
+			show all rows from Colleges [ID != null]
+			(
+				College_Name
+				College_Code
+			)
+		}
+	}
+
+	pages
+	{
+		// Command Center page (Panel, Board, Chart, Gauge, Search, Form, Report,
+		// Snippets, Button, Widgets, Viewer). Page layout is finished visually
+		// in the Page Builder after import.
+		page Event_Command_Center_Page
+		{
+			displayname = "Event Command Center"
+			access = {"Organizing_Committee", "Front_Desk"}
+			content
+			<%[
+				<zml>
+					<layout>
+						<panel elementName='Command_Center_Main_Panel' />
+					</layout>
+				</zml>
+			]%>
+		}
+	}
+
+	functions
+	{
+		// Reusable Function: Generate_Certificate_Function
+		void Generate_Certificate_Function(int recordID)
+		{
+			rec = Event_Registration_Form[ID == input.recordID];
+			// Input validation - fail safely
+			if(rec.Participant_Name == null || rec.Participant_Name == "" || rec.Email_Address == null || rec.Email_Address == "")
+			{
+				info "Certificate skipped: missing name or email for record " + input.recordID;
+				return;
+			}
+			certHtml = "<div style='text-align:center;border:5px solid #333;padding:40px'><h1>Certificate of Participation</h1><p>This is to certify that</p><h2>" + rec.Participant_Name + "</h2><p>has participated in the Technical Symposium - " + rec.Event_Track + "</p><p>Registration ID: " + rec.Registration_ID + "</p></div>";
+			certPdf = convertToPDF(certHtml);
+			certPdf.setParamName("file");
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :rec.Email_Address
+				subject :"Your Participation Certificate"
+				message :"Dear " + rec.Participant_Name.first_name + ", please find your certificate attached."
+				Attachments :file:certPdf
+			]
+		}
+
+		// Called by schedule: payment reminders (max 3 per participant)
+		void Send_Payment_Reminders()
+		{
+			pending = Event_Registration_Form[Payment_Status == "Pending" && Reminder_Count < 3];
+			for each  r in pending
+			{
+				sendmail
+				[
+					from :zoho.adminuserid
+					to :r.Email_Address
+					subject :"Reminder: Complete your registration payment"
+					message :"Dear " + r.Participant_Name.first_name + ", your payment of " + r.Total_Amount_Payable + " is pending for Registration ID " + r.Registration_ID + "."
+				]
+				r.Reminder_Count = r.Reminder_Count + 1;
+			}
+		}
+
+		// Called by report workflow on edit
+		void Recalculate_Fee(int recordID)
+		{
+			rec = Event_Registration_Form[ID == input.recordID];
+			rec.Total_Amount_Payable = rec.Registration_Fee_Paid - (rec.Registration_Fee_Paid * rec.Early_Bird_Discount_Percent / 100);
+		}
+	}
+
+	schedules
+	{
+		Daily_Payment_Reminder_Schedule
+		{
+			type = recurring
+			frequency = daily
+			time = "09:00"
+			end date = '10-Sep-2026'
+			execute = thisapp.Send_Payment_Reminders();
+		}
+	}
+
+	roles
+	{
+		Organizing_Committee
+		{
+			displayname = "Organizing Committee"
+		}
+		Front_Desk
+		{
+			displayname = "Front Desk"
+		}
+		Event_Coordinator
+		{
+			displayname = "Event Coordinator"
+		}
+	}
+}

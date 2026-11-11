@@ -1,0 +1,1907 @@
+/*
+ * Author       : thivyasri.t.2024.cse_raja769
+ * Generated on : 10-Nov-2026 09:58:44
+ * Version      : 1.0
+ */
+ application "SpendWise"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form Expenses
+		{
+			success message = "Expense Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Expense_Name
+			(
+    			type = text
+				displayname = "Expense Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Amount
+			(
+				displayname = "Amount Spent"
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Date_field
+			(
+    			type = datetime
+				displayname = "Date"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Category
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Food","Travel","Shopping","Education","Bills","Health","Entertainment","Others"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Payment_Method
+			(
+				type = picklist
+				displayname = "Payment Method"
+				maxchar = 100
+				values = {"Cash","UPI","Debit/Credit Card","Bank Transfer","Others"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Notes
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Budget_Month
+			(
+    			type = text
+				displayname = "Budget Month"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Amount_Spent_Prediction
+			(
+				type = decimal
+				displayname = "Amount Spent Prediction"
+	 			row = 1
+	 			column = 1   
+				width = medium
+						AI_Properties
+						(
+									fieldtype = Prediction
+									modelname = "SpendWise_Expense_Prediction"
+									supportingfield = {Category,Payment_Method,Date_field}
+						)
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Income
+		{
+			success message = "Income Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Income_Source
+			(
+    			type = text
+				displayname = "Income Source"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Amount
+			(
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Date_field
+			(
+    			type = datetime
+				displayname = "Date"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Income_Category
+			(
+				type = picklist
+				displayname = "Income Category"
+				maxchar = 100
+				values = {"Salary","Pocket Money","Freelance","Business","Gifts","Investments","Others"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Monthly_Budget
+		{
+			displayname = "Monthly Budget"
+			success message = "Monthly Budget Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Budget_Line
+			(
+    			type = text
+				displayname = "Budget Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Month_field
+			(
+				type = picklist
+				displayname = "Month"
+				maxchar = 100
+				values = {"January","February","March","April","May","June","July","August","September","October","November","December"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Year_field
+			(
+				type = number
+				displayname = "Year"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Budget_Amount
+			(
+				displayname = "Budget Amount"
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Alert_Threshold
+			(
+				type = number
+				displayname = "Alert Threshold (%)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Month_Key
+			(
+    			type = text
+				displayname = "Month Key"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Spent_Amount
+			(
+				displayname = "Spent"
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Remaining_Amount
+			(
+				displayname = "Remaining"
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Used_Percent
+			(
+				type = decimal
+				displayname = "Used (%)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Budget_Status
+			(
+				type = picklist
+				displayname = "Status"
+				maxchar = 100
+				values = {"On Track","Near Limit","Over Budget"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Savings_Goal
+		{
+			displayname = "Savings Goal"
+			success message = "Savings Goal Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have Goal_Name
+			(
+    			type = text
+				displayname = "Goal Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Target_Amount
+			(
+				displayname = "Target Amount"
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Current_Saved_Amount
+			(
+				displayname = "Current Saved Amount"
+				type = INR
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Date_field
+			(
+    			type = datetime
+				displayname = "Target Date"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Goat_Status
+			(
+				type = picklist
+				displayname = "Goal Status"
+				maxchar = 100
+				values = {"In Progress","Achieved","Paused"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Progress_Percent
+			(
+				type = decimal
+				displayname = "Progress (%)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Completed_On
+			(
+    			type = date
+				displayname = "Completed On"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		default list All_Expenses
+		{
+			displayName = "All Expenses"
+			show all rows from Expenses    
+			(
+				Expense_Name as "Expense Name"
+				Amount as "Amount Spent"
+				Date_field as "Date"
+				Category
+				Payment_Method as "Payment Method"
+				Notes
+				Amount_Spent_Prediction as "Amount Spent Prediction"
+			)
+		}
+		default list All_Incomes
+		{
+			displayName = "All Incomes"
+			show all rows from Income    
+			(
+				Income_Source as "Income Source"
+				Amount as "Amount "
+				Date_field as "Date  "
+				Income_Category as "Income Category"
+			)
+		}
+		default list All_Monthly_Budgets
+		{
+			displayName = "All Monthly Budgets"
+			show all rows from Monthly_Budget    
+			(
+				Budget_Line as "Budget Name"
+				Month_field as "Month"
+				Year_field as "Year"
+				Budget_Amount as "Budget Amount"
+				Alert_Threshold as "Alert Threshold (%)"
+				Spent_Amount as "Spent"
+				Remaining_Amount as "Remaining"
+				Used_Percent as "Used (%)"
+				Budget_Status as "Status"
+			)
+		}
+		default list All_Savings_Goals
+		{
+			displayName = "All Savings Goals"
+			show all rows from Savings_Goal    
+			(
+				Goal_Name as "Goal Name"
+				Target_Amount as "Target Amount"
+				Current_Saved_Amount as "Current Saved Amount"
+				Date_field as "Target Date"
+				Goat_Status as "Goal Status"
+				Progress_Percent as "Progress (%)"
+				Completed_On as "Completed On"
+			)
+		}
+		list Expenses_History
+		{
+			displayName = "Expenses History"
+			show all rows from Expenses    
+			(
+				Expense_Name as "Expense Name"
+				Date_field as "Date"
+				Category
+				Amount as "Amount Spent"
+				Payment_Method as "Payment Method"
+				Notes
+			)
+			filters
+			(
+				Date_field
+				Category
+				Payment_Method
+			)
+			sort by
+			(
+				Date_field descending
+			)
+		}
+		list Savings_Goals_Overview
+		{
+			displayName = "Savings Goals Overview"
+			show all rows from Savings_Goal    
+			(
+				Goal_Name as "Goal Name"
+				Target_Amount as "Target Amount"
+				Current_Saved_Amount as "Current Saved Amount"
+				Date_field as "Date"
+				Goat_Status as "Goal Status"
+			)
+			filters
+			(
+				Goat_Status
+			)
+			sort by
+			(
+				Date_field descending
+			)
+		}
+		list Monthly_Budget_Overview
+		{
+			displayName = "Monthly Budget Overview"
+			show all rows from Monthly_Budget    
+			(
+				Budget_Line as "Budget Name"
+				Month_field as "Month"
+				Year_field as "Year"
+				Budget_Amount as "Budget Amount"
+				Alert_Threshold as "Alert Threshold"
+			)
+			filters
+			(
+				Month_field
+				Year_field
+			)
+			sort by
+			(
+				Year_field descending
+				Month_field ascending
+			)
+		}
+		list Income_History
+		{
+			displayName = "Income History"
+			show all rows from Income    
+			(
+				Income_Source as "Income Source"
+				Date_field as "Date"
+				Income_Category as "Income Category"
+				Amount
+			)
+			filters
+			(
+				Date_field
+				Income_Category
+			)
+			sort by
+			(
+				Date_field descending
+			)
+		}
+	}
+	pages
+	{
+		page Dashboard
+		{
+			displayname = "Dashboard"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#88ACE4'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#88ACE4'\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t  value = 'thisapp.Income.Amount.sum'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Total income (Rs.)'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#EA9D9D'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#EA9D9D'\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t  value = 'thisapp.Expenses.Amount.sum'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Total spent (Rs.)'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#B2D27C'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#B2D27C'\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t  value = 'thisapp.Savings_Goal.Current_Saved_Amount.sum'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Total saved (Rs.)'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#F5C486'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#F5C486'\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t\tcriteria = 'Budget_Status == &quot;Over Budget&quot;'\n\t  value = 'thisapp.Monthly_Budget.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Months over budget'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='20%'\n   \t>\n\t<panel elementName='Panel 4'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#9C8CDB'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#9C8CDB'\n\n\n\tdisplayType = 'actual'\n\n\n\n\n\t\tcriteria = 'Goat_Status == &quot;Achieved&quot;'\n\t  value = 'thisapp.Savings_Goal.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Goals achieved'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='33%'\n   \t>\n\t<chart \n\telementName='Chart'\n\n\t\n\ttitle = 'Spending by category'\n\t\n\ttype = 'Donut'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Expenses'\n\txfield = 'Category'\n\tyfields = 'sum:Amount'\n/>\n\n</column><column\n   \t\t width='33%'\n   \t>\n\t<chart \n\telementName='Chart 1'\n\n\t\n\ttitle = 'Spending by payment method'\n\t\n\ttype = 'Column'\n\txtitle = 'Payment Method'\n\tytitle = 'Amount Spent'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Expenses'\n\txfield = 'Payment_Method'\n\tyfields = 'sum:Amount'\n/>\n\n</column><column\n   \t\t width='34%'\n   \t>\n\t<chart \n\telementName='Chart 2'\n\n\t\n\ttitle = 'Income by category'\n\t\n\ttype = 'Pie'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Income'\n\txfield = 'Income_Category'\n\tyfields = 'sum:Amount'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\n\ttitle = 'Monthly budgets'\n\t\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'All_Monthly_Budgets'\n\t\n\t\tiszreport = 'false'\n\theightType = 'custom'\n\theightValue = '420'\n/>\n</column><column\n   \t\t width='50%'\n   \t>\n\t<report \n\telementName='Report 1'\n\n\t\n\ttitle = 'Savings goals'\n\t\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'All_Savings_Goals'\n\t\n\t\tiszreport = 'false'\n\theightType = 'custom'\n\theightValue = '420'\n/>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+		page Home
+		{
+			displayname = "Home"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#313849'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Welcome to SpendWise'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'Expenses'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Add Expense'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'Income'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Add Income'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'Monthly_Budget'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Set Monthly Budget'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 4'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'Savings_Goal'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Add Savings Goal'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 5'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Expenses_History'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Expense History'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 6'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Income_History'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Income History'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 7'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'All_Monthly_Budgets'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Budgets'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 8'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'All_Savings_Goals'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Savings Goals'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 9'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<button \n\t\n    action = 'OpenPage'\n\t\tcomponentLinkName = 'Dashboard'\n\t\ttarget = 'same-window'\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='View Dashboard'\n\t\ttype = 'flat'\n\t\tbgColor = '#0072F4'\n\t\tcornerRadius = '3px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+
+
+
+
+		workflow
+		{
+		form
+		{
+			Budget_Alert_Workflow as "Budget Alert Workflow"
+			{
+				type =  form
+				form = Expenses
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Emails every new expense, and flags a large one. Budget levels are in Budget_Refresh.
+										subject = "SpendWise: new expense of Rs. " + input.Amount;
+										if(input.Amount >= 5000)
+										{
+											subject = "SpendWise alert: large expense of Rs. " + input.Amount;
+										}
+										// Zoho caps emails per day, and a failed email mustn't stop the save.
+										try 
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :zoho.adminuserid
+												subject :subject
+												message :"<b>" + input.Expense_Name + "</b>: Rs. " + input.Amount + " on " + input.Category + ", paid by " + input.Payment_Method + " (" + input.Date_field + ").<br><br>Check your budget on the SpendWise dashboard.<br><br>SpendWise"
+											]
+										}catch (e)
+										{
+											info e;
+										}
+						)
+					}
+				}
+
+			}
+			Expense_Validate as "Expense - check the amount and note its month"
+			{
+				type =  form
+				form = Expenses
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Amount <= 0)
+										{
+											alert "Amount spent must be more than 0.";
+											cancel submit;
+										}
+										input.Budget_Month = input.Date_field.toString("MMMM yyyy");
+						)
+					}
+				}
+
+			}
+			Budget_Refresh as "Budget Refresh - recalculate budgets and send alerts"
+			{
+				type =  form
+				form = Expenses
+
+				record event = on add or edit
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Recalculates every month's budget from its expenses, so an expense moved to another month is
+										// counted correctly too. Emails only when a budget moves up a level: first at its alert threshold,
+										// then at 100%.
+										for each  b in Monthly_Budget[ID != 0]
+										{
+											spent = ifnull(Expenses[Budget_Month == b.Month_Key].sum(Amount),0);
+											used = (spent * 100 / b.Budget_Amount).round(1);
+											status = "On Track";
+											if(used >= 100)
+											{
+												status = "Over Budget";
+											}
+											else if(used >= ifnull(b.Alert_Threshold,80))
+											{
+												status = "Near Limit";
+											}
+											if(status == "Over Budget" && b.Budget_Status != "Over Budget" || status == "Near Limit" && b.Budget_Status == "On Track")
+											{
+												// Zoho caps emails per day, and a failed email mustn't stop the save.
+												try 
+												{
+													sendmail
+													[
+														from :zoho.adminuserid
+														to :zoho.adminuserid
+														subject :"SpendWise: " + b.Month_Key + " budget is " + used + "% used"
+														message :"You have spent <b>Rs. " + spent + "</b> of your <b>Rs. " + b.Budget_Amount + "</b> budget for " + b.Month_Key + " (" + used + "%). Status: <b>" + status + "</b>.<br><br>SpendWise"
+													]
+												}		catch (e)
+												{
+													info e;
+												}
+											}
+											b.Spent_Amount=spent;
+											b.Remaining_Amount=b.Budget_Amount - spent;
+											b.Used_Percent=used;
+											b.Budget_Status=status;
+										}
+						)
+					}
+				}
+
+			}
+			Expense_Deleted as "Expense deleted - recalculate its month"
+			{
+				type =  form
+				form = Expenses
+
+				record event = on delete
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Spending only goes down here, so no alert is needed.
+										for each  b in Monthly_Budget[Month_Key == input.Budget_Month]
+										{
+											spent = ifnull(Expenses[Budget_Month == b.Month_Key].sum(Amount),0);
+											used = (spent * 100 / b.Budget_Amount).round(1);
+											status = "On Track";
+											if(used >= 100)
+											{
+												status = "Over Budget";
+											}
+											else if(used >= ifnull(b.Alert_Threshold,80))
+											{
+												status = "Near Limit";
+											}
+											b.Spent_Amount=spent;
+											b.Remaining_Amount=b.Budget_Amount - spent;
+											b.Used_Percent=used;
+											b.Budget_Status=status;
+										}
+						)
+					}
+				}
+
+			}
+			Expense_Form_Load as "Expense - default date and hidden month"
+			{
+				type =  form
+				form = Expenses
+
+				record event = on add or edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											hide Budget_Month;
+										if(input.Date_field == null)
+										{
+											input.Date_field = zoho.currenttime;
+										}
+						)
+					}
+				}
+
+			}
+			Income_Validate as "Income - check the amount"
+			{
+				type =  form
+				form = Income
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Amount <= 0)
+										{
+											alert "Amount must be more than 0.";
+											cancel submit;
+										}
+						)
+					}
+				}
+
+			}
+			Budget_Form_Load as "Budget - default threshold and read-only fields"
+			{
+				type =  form
+				form = Monthly_Budget
+
+				record event = on add or edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											hide Month_Key;
+										disable Spent_Amount;
+										disable Remaining_Amount;
+										disable Used_Percent;
+										disable Budget_Status;
+										if(input.Alert_Threshold == null)
+										{
+											input.Alert_Threshold = 80;
+										}
+						)
+					}
+				}
+
+			}
+			Budget_Validate as "Budget - one per month, and work out what is used"
+			{
+				type =  form
+				form = Monthly_Budget
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											error = "";
+										key = input.Month_field + " " + input.Year_field;
+										for each  b in Monthly_Budget[Month_Key == key]
+										{
+											if(b.ID != input.ID)
+											{
+												error = "A budget for " + key + " already exists. Edit that one instead.";
+											}
+										}
+										if(input.Budget_Amount <= 0)
+										{
+											error = "Budget amount must be more than 0.";
+										}
+										else if(input.Year_field < 2000 || input.Year_field > 2100)
+										{
+											error = "Enter a four-digit year, such as 2026.";
+										}
+										else if(ifnull(input.Alert_Threshold,80) <= 0 || ifnull(input.Alert_Threshold,80) > 100)
+										{
+											error = "Alert threshold must be between 1 and 100.";
+										}
+										if(error != "")
+										{
+											alert error;
+											cancel submit;
+										}
+										input.Month_Key = key;
+										spent = ifnull(Expenses[Budget_Month == key].sum(Amount),0);
+										input.Spent_Amount = spent;
+										input.Remaining_Amount = input.Budget_Amount - spent;
+										input.Used_Percent = (spent * 100 / input.Budget_Amount).round(1);
+										if(input.Used_Percent >= 100)
+										{
+											input.Budget_Status = "Over Budget";
+										}
+										else if(input.Used_Percent >= ifnull(input.Alert_Threshold,80))
+										{
+											input.Budget_Status = "Near Limit";
+										}
+										else
+										{
+											input.Budget_Status = "On Track";
+										}
+						)
+					}
+				}
+
+			}
+			Goal_Check as "Goal - track progress and email when it is completed"
+			{
+				type =  form
+				form = Savings_Goal
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Target_Amount <= 0)
+										{
+											alert "Target amount must be more than 0.";
+											cancel submit;
+										}
+										saved = ifnull(input.Current_Saved_Amount,0);
+										input.Progress_Percent = (saved * 100 / input.Target_Amount).round(1);
+										if(saved >= input.Target_Amount)
+										{
+											input.Goat_Status = "Achieved";
+											// Completed_On is set once, so editing a finished goal doesn't email again.
+											if(input.Completed_On == null)
+											{
+												input.Completed_On = zoho.currentdate;
+												// Zoho caps emails per day, and a failed email mustn't stop the save.
+												try 
+												{
+													sendmail
+													[
+														from :zoho.adminuserid
+														to :zoho.adminuserid
+														subject :"SpendWise: you completed your goal " + input.Goal_Name
+														message :"You have saved <b>Rs. " + saved + "</b> and reached your target of <b>Rs. " + input.Target_Amount + "</b> for <b>" + input.Goal_Name + "</b>. Well done!<br><br>SpendWise"
+													]
+												}		catch (e)
+												{
+													info e;
+												}
+											}
+										}
+										else
+										{
+											input.Completed_On = null;
+											if(input.Goat_Status == null || input.Goat_Status == "" || input.Goat_Status == "Achieved")
+											{
+												input.Goat_Status = "In Progress";
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Goal_Form_Load as "Goal - read-only fields"
+			{
+				type =  form
+				form = Savings_Goal
+
+				record event = on add or edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable Progress_Percent;
+										disable Completed_On;
+						)
+					}
+				}
+
+			}
+		}
+
+
+
+
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+	customize
+	{
+		icon
+		{
+			text = "SPE"
+			background color = "theme"
+			foreground color = "#ffffff"
+		}
+	}
+
+	web
+	{
+		forms
+		{
+			form Expenses
+			{
+				label placement = left
+			}
+			form Income
+			{
+				label placement = left
+			}
+			form Monthly_Budget
+			{
+				label placement = left
+			}
+			form Savings_Goal
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report All_Expenses
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Expense_Name as "Expense Name"
+								Amount as "Amount Spent"
+								Date_field as "Date"
+								Category
+								Payment_Method as "Payment Method"
+								Notes
+								Amount_Spent_Prediction as "Amount Spent Prediction"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Expense_Name as "Expense Name"
+								Amount as "Amount Spent"
+								Date_field as "Date"
+								Category
+								Payment_Method as "Payment Method"
+								Notes
+								Amount_Spent_Prediction as "Amount Spent Prediction"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Incomes
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Income_Source as "Income Source"
+								Amount as "Amount "
+								Date_field as "Date  "
+								Income_Category as "Income Category"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Income_Source as "Income Source"
+								Amount as "Amount "
+								Date_field as "Date  "
+								Income_Category as "Income Category"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Monthly_Budgets
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Budget_Line as "Budget Name"
+								Month_field as "Month"
+								Year_field as "Year"
+								Budget_Amount as "Budget Amount"
+								Alert_Threshold as "Alert Threshold (%)"
+								Spent_Amount as "Spent"
+								Remaining_Amount as "Remaining"
+								Used_Percent as "Used (%)"
+								Budget_Status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Budget_Line as "Budget Name"
+								Month_field as "Month"
+								Year_field as "Year"
+								Budget_Amount as "Budget Amount"
+								Alert_Threshold as "Alert Threshold (%)"
+								Spent_Amount as "Spent"
+								Remaining_Amount as "Remaining"
+								Used_Percent as "Used (%)"
+								Budget_Status as "Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Savings_Goals
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Goal_Name as "Goal Name"
+								Target_Amount as "Target Amount"
+								Current_Saved_Amount as "Current Saved Amount"
+								Date_field as "Target Date"
+								Goat_Status as "Goal Status"
+								Progress_Percent as "Progress (%)"
+								Completed_On as "Completed On"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Goal_Name as "Goal Name"
+								Target_Amount as "Target Amount"
+								Current_Saved_Amount as "Current Saved Amount"
+								Date_field as "Target Date"
+								Goat_Status as "Goal Status"
+								Progress_Percent as "Progress (%)"
+								Completed_On as "Completed On"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Expenses_History
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Expense_Name as "Expense Name"
+								Date_field as "Date"
+								Category
+								Amount as "Amount Spent"
+								Payment_Method as "Payment Method"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						expense_details
+						(
+		     				title = "Expense Details"
+							fields
+							(
+								Expense_Name as "Expense Name"
+								Date_field as "Date"
+								Category
+								Amount as "Amount Spent"
+								Payment_Method as "Payment Method"
+								Notes
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Savings_Goals_Overview
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Goal_Name as "Goal Name"
+								Target_Amount as "Target Amount"
+								Current_Saved_Amount as "Current Saved Amount"
+								Goat_Status as "Goal Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						goal_details
+						(
+		     				title = "Goal Details"
+							fields
+							(
+								Goal_Name as "Goal Name"
+								Target_Amount as "Target Amount"
+								Current_Saved_Amount as "Current Saved Amount"
+								Date_field as "Date"
+								Goat_Status as "Goal Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Monthly_Budget_Overview
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Budget_Line as "Budget Name"
+								Month_field as "Month"
+								Year_field as "Year"
+								Budget_Amount as "Budget Amount"
+								Alert_Threshold as "Alert Threshold"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						budget_details
+						(
+		     				title = "Budget Details"
+							fields
+							(
+								Budget_Line as "Budget Name"
+								Month_field as "Month"
+								Year_field as "Year"
+								Budget_Amount as "Budget Amount"
+								Alert_Threshold as "Alert Threshold"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Income_History
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Income_Source as "Income Source"
+								Date_field as "Date"
+								Income_Category as "Income Category"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						income_details
+						(
+		     				title = "Income Details"
+							fields
+							(
+								Income_Source as "Income Source"
+								Date_field as "Date"
+								Income_Category as "Income Category"
+								Amount
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Expenses
+				{
+					displayname = "Expenses"
+					icon = "business-currency-dollar"
+					form  Expenses
+					{
+						icon = "business-currency-dollar"
+					}
+					report All_Expenses
+					{
+						icon = "tech-desktop"
+					}
+					report Expenses_History
+					{
+						icon = "business-currency-dollar"
+					}
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section Incomes
+				{
+					displayname = "Incomes"
+					icon = "business-money-growth"
+					form  Income
+					{
+						icon = "business-money-coins"
+					}
+					report All_Incomes
+					{
+						icon = "tech-desktop"
+					}
+					report Income_History
+					{
+						icon = "shopping-cash-register"
+					}
+				}
+				section Monthly_Budgets
+				{
+					displayname = "Monthly Budgets"
+					icon = "business-progress"
+					form  Monthly_Budget
+					{
+						icon = "business-cheque"
+					}
+					report All_Monthly_Budgets
+					{
+						icon = "tech-desktop"
+					}
+					report Monthly_Budget_Overview
+					{
+						icon = "shopping-cash-register"
+					}
+				}
+				section Savings_Goals
+				{
+					displayname = "Savings Goals"
+					icon = "business-money-growth"
+					form  Savings_Goal
+					{
+						icon = "business-goal-64"
+					}
+					report All_Savings_Goals
+					{
+						icon = "tech-desktop"
+					}
+					report Savings_Goals_Overview
+					{
+						icon = "business-goal-64"
+					}
+				}
+				section Dashboard
+				{
+					displayname = "Dashboard"
+					icon = "ui-1-dashboard-half"
+					page Dashboard
+					{
+						icon = "ui-1-dashboard-half"
+					}
+					page Home
+					{
+						icon = "users-2-home"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+				}
+			}
+		}
+		customize
+		{
+			font = "lato"
+			color options
+			{
+				color = "11"
+			}
+			logo
+			{
+				preference = "app_icon"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form Expenses
+			{
+				label placement = auto
+			}
+			form Income
+			{
+				label placement = auto
+			}
+			form Monthly_Budget
+			{
+				label placement = auto
+			}
+			form Savings_Goal
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = chryslerpurple
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form Expenses
+			{
+				label placement = auto
+			}
+			form Income
+			{
+				label placement = auto
+			}
+			form Monthly_Budget
+			{
+				label placement = auto
+			}
+			form Savings_Goal
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = rose
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
